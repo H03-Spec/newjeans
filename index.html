@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#FFE3F1">
+<title>测测你是 NewJeans 里的谁 | 你是 Minji、Hanni、Danielle、Haerin 还是 Hyein？</title>
+<style>
+:root{
+  --cream:#FFF6FB;
+  --pink:#FF8FC0;
+  --pink-d:#E2589C;
+  --lilac:#C1A3FF;
+  --mint:#78EFD2;
+  --sky:#93CDFF;
+  --butter:#FFE3A0;
+  --ink:#3A2C4C;
+  --ink2:#6E5C85;
+  --sub:#A796B8;
+  --r:20px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--cream);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","HarmonyOS Sans SC","Source Han Sans SC","Noto Sans SC","Microsoft YaHei",sans-serif;
+  font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;
+  min-height:100vh;overflow-x:hidden;
+}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+ 
+/* ================= 背景：梦核渐变 + 颗粒 + 扫描线 + 像素星 ================= */
+.bgfx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.bgfx .blob{position:absolute;border-radius:50%;filter:blur(48px);opacity:.7;}
+.bgfx .b1{width:360px;height:360px;top:-110px;left:-120px;
+  background:radial-gradient(circle at 34% 32%,#FFD3E8,#FF9FC9 58%,rgba(255,159,201,0) 72%);
+  animation:drift1 19s ease-in-out infinite;}
+.bgfx .b2{width:320px;height:320px;top:16%;right:-140px;
+  background:radial-gradient(circle at 60% 40%,#E3D8FF,#C1A3FF 56%,rgba(193,163,255,0) 72%);
+  animation:drift2 23s ease-in-out infinite;}
+.bgfx .b3{width:340px;height:340px;bottom:-120px;left:-60px;
+  background:radial-gradient(circle at 40% 60%,#D9FBF1,#78EFD2 56%,rgba(120,239,210,0) 72%);
+  animation:drift3 27s ease-in-out infinite;}
+.bgfx .b4{width:280px;height:280px;bottom:6%;right:-100px;
+  background:radial-gradient(circle at 50% 50%,#DCEDFF,#93CDFF 56%,rgba(147,205,255,0) 72%);
+  animation:drift2 21s ease-in-out infinite reverse;}
+@keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(38px,30px) scale(1.09)}}
+@keyframes drift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-34px,26px) scale(1.12)}}
+@keyframes drift3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,-28px) scale(1.07)}}
+ 
+.bgfx .grain{position:absolute;inset:-60px;opacity:.26;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  animation:grainmove 1.1s steps(4,end) infinite;}
+@keyframes grainmove{
+  0%{transform:translate(0,0)}25%{transform:translate(-14px,8px)}
+  50%{transform:translate(10px,-12px)}75%{transform:translate(-8px,-6px)}100%{transform:translate(0,0)}}
+ 
+.bgfx .scan{position:absolute;inset:0;opacity:.55;
+  background:repeating-linear-gradient(180deg,rgba(120,80,140,.055) 0 1px,rgba(255,255,255,0) 1px 4px);
+  animation:scanmove 5.5s linear infinite;}
+@keyframes scanmove{to{transform:translateY(4px)}}
+ 
+.pstar{position:absolute;width:3px;height:3px;background:#fff;opacity:.9;
+  animation:twinkle 2.6s steps(2,end) infinite;
+  filter:drop-shadow(0 0 3px rgba(255,255,255,.9));}
+.pstar.plus{box-shadow:0 -7px 0 #fff,0 7px 0 #fff,-7px 0 0 #fff,7px 0 0 #fff;}
+@keyframes twinkle{0%,100%{opacity:.18;transform:scale(.7)}50%{opacity:1;transform:scale(1.15)}}
+ 
+/* ================= 布局 ================= */
+.app{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:0 16px 44px;}
+ 
+/* ================= 顶栏 ================= */
+.topbar{position:sticky;top:0;z-index:20;margin:0 -16px 0;padding:11px 16px 9px;
+  background:linear-gradient(180deg,rgba(255,246,251,.95),rgba(255,246,251,.66));
+  backdrop-filter:blur(12px) saturate(165%);-webkit-backdrop-filter:blur(12px) saturate(165%);
+  border-bottom:1px solid rgba(255,255,255,.95);
+  box-shadow:0 6px 20px rgba(160,120,190,.10);}
+.topbar .row{display:flex;align-items:center;gap:8px;justify-content:center;}
+.topbar .tt{font-size:13.5px;font-weight:600;letter-spacing:.2px;color:var(--ink);line-height:1.5;}
+.topbar .tt .div{color:#E4C9DC;margin:0 6px;font-weight:400;}
+.topbar .ts{font-weight:400;color:var(--sub);font-size:12px;letter-spacing:0;}
+.rec{flex:none;display:inline-flex;align-items:center;gap:4px;font-family:ui-monospace,Menlo,Consolas,monospace;
+  font-size:9.5px;letter-spacing:1.5px;color:#fff;background:#3A2C4C;border-radius:999px;padding:3px 8px 3px 6px;}
+.rec i{width:6px;height:6px;border-radius:50%;background:#FF4D6D;box-shadow:0 0 6px #FF4D6D;animation:recblink 1.4s steps(1,end) infinite;}
+@keyframes recblink{0%,49%{opacity:1}50%,100%{opacity:.15}}
+ 
+/* ================= 跑马灯 ================= */
+.marquee{overflow:hidden;white-space:nowrap;margin:0 -16px 16px;padding:7px 0;
+  background:linear-gradient(90deg,#FFDCEE,#E9DEFF 38%,#D8F5EF 68%,#FFDCEE);
+  border-bottom:1px solid #fff;box-shadow:0 4px 14px rgba(160,120,190,.12);}
+.marquee > span{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:3.5px;color:#7C5B91;
+  animation:mq 17s linear infinite;will-change:transform;}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+ 
+/* ================= 通用 ================= */
+.page{animation:pagein .44s cubic-bezier(.2,.9,.3,1) both;}
+.hidden{display:none!important;}
+@keyframes pagein{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:none}}
+ 
+.card{position:relative;overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.88),rgba(255,255,255,.66));
+  border:1px solid rgba(255,255,255,.95);border-radius:var(--r);padding:22px 20px;
+  box-shadow:0 14px 34px rgba(150,110,180,.14),inset 0 1px 0 rgba(255,255,255,.98),inset 0 -1px 0 rgba(255,255,255,.55);
+  backdrop-filter:blur(9px) saturate(155%);-webkit-backdrop-filter:blur(9px) saturate(155%);}
+.card::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;
+  background:linear-gradient(90deg,var(--sky),var(--lilac) 38%,var(--pink) 68%,var(--mint));opacity:.9;}
+.card > *{position:relative;}
+ 
+/* ================= 封面 ================= */
+.cover-card{text-align:center;padding:30px 20px 26px;}
+.pxrow{display:flex;justify-content:center;align-items:center;gap:14px;margin-bottom:16px;}
+.pxrow > *{animation:bob 2.6s ease-in-out infinite;}
+.pxrow > *:nth-child(2){animation-delay:.4s;}
+.pxrow > *:nth-child(3){animation-delay:.8s;}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+ 
+.cover-kicker{display:inline-block;font-family:ui-monospace,Menlo,Consolas,monospace;
+  font-size:10.5px;letter-spacing:3px;color:#fff;background:linear-gradient(90deg,#C1A3FF,#FF8FC0);
+  border-radius:999px;padding:5px 15px;margin-bottom:16px;box-shadow:0 4px 12px rgba(226,88,156,.28);}
+.cover-title{font-size:31px;line-height:1.34;font-weight:800;letter-spacing:1px;margin:0 0 8px;
+  background:linear-gradient(180deg,#FFFFFF 0%,#FFE0F0 32%,#D9C7FF 50%,#FF9FCB 68%,#FFFFFF 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 2px 0 rgba(255,255,255,.95)) drop-shadow(0 5px 12px rgba(226,88,156,.26));}
+.cover-sub{font-size:14px;color:var(--ink2);margin:0 0 18px;}
+.cover-line{height:0;margin:0 auto 18px;width:64px;
+  border-top:3px dotted #F0C8DD;}
+.cover-intro{font-size:14px;color:var(--ink2);text-align:left;margin:0 0 20px;}
+.cover-intro b{color:var(--pink-d);font-weight:700;}
+ 
+.chips{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-bottom:22px;}
+.chip{font-size:12px;font-weight:600;color:#7A5A8C;background:rgba(255,255,255,.9);
+  border:1.5px solid #fff;border-radius:999px;padding:6px 13px;
+  box-shadow:0 4px 10px rgba(160,120,190,.16);}
+.chip:nth-child(1){transform:rotate(-2.5deg);}
+.chip:nth-child(2){transform:rotate(2deg);background:#FFF6E3;}
+.chip:nth-child(3){transform:rotate(-1deg);background:#E9FBFF;}
+ 
+.btn{display:block;width:100%;border:none;border-radius:999px;padding:15px 16px;
+  font-size:16px;font-weight:700;font-family:inherit;letter-spacing:1.5px;
+  transition:transform .13s cubic-bezier(.2,.9,.3,1.3),box-shadow .13s;cursor:pointer;}
+.btn-primary{color:#fff;text-shadow:0 1px 2px rgba(200,60,130,.45);
+  background:linear-gradient(180deg,#FFE7F4,#FFA0CA 52%,#FF7CB6);
+  box-shadow:0 5px 0 #DE4E93,0 12px 22px rgba(226,88,156,.34);}
+.btn-primary:active{transform:translateY(4px);box-shadow:0 1px 0 #DE4E93,0 4px 10px rgba(226,88,156,.3);}
+.btn-primary:disabled{background:#EADFE8;color:#fff;text-shadow:none;box-shadow:0 5px 0 #D5C6D1;cursor:not-allowed;}
+.btn-ghost{background:rgba(255,255,255,.9);color:var(--ink2);border:1.5px solid #fff;
+  box-shadow:0 4px 0 #E8DCEA,0 8px 16px rgba(160,120,190,.14);}
+.btn-ghost:active{transform:translateY(3px);box-shadow:0 1px 0 #E8DCEA;}
+.cover-note{margin-top:16px;font-size:11.5px;color:var(--sub);letter-spacing:.3px;}
+ 
+/* ================= 答题 ================= */
+.q-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.q-num{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10.5px;letter-spacing:1.5px;color:var(--sub);}
+.q-num b{color:var(--pink-d);font-weight:700;}
+.bar{height:11px;border-radius:999px;background:rgba(255,255,255,.75);border:1.5px solid #fff;
+  box-shadow:inset 0 2px 4px rgba(160,120,190,.16);overflow:hidden;margin-bottom:22px;position:relative;}
+.bar > i{display:block;height:100%;border-radius:999px;position:relative;
+  background:linear-gradient(90deg,#93CDFF,#C1A3FF 48%,#FF8FC0);
+  transition:width .5s cubic-bezier(.3,.9,.3,1);}
+.bar > i::after{content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.6) 0 4px,rgba(255,255,255,0) 4px 10px);}
+.bar::after{content:"";position:absolute;top:0;bottom:0;width:34px;left:-40px;
+  background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.85),rgba(255,255,255,0));
+  animation:shine 2.6s ease-in-out infinite;}
+@keyframes shine{0%{left:-40px}60%,100%{left:120%}}
+ 
+.q-title{font-size:19px;font-weight:700;line-height:1.62;letter-spacing:.3px;margin:0 0 18px;color:var(--ink);}
+.opt{position:relative;display:flex;align-items:flex-start;gap:12px;width:100%;text-align:left;
+  background:rgba(255,255,255,.82);border:1.5px solid rgba(255,255,255,.95);border-radius:16px;
+  padding:14px 15px;margin-bottom:11px;font-family:inherit;font-size:15px;line-height:1.6;color:var(--ink2);
+  box-shadow:0 4px 14px rgba(160,120,190,.10);cursor:pointer;
+  transition:transform .14s,box-shadow .18s,background .2s,border-color .2s;
+  animation:optin .36s cubic-bezier(.2,.9,.3,1.25) both;}
+@keyframes optin{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+.opt:active{transform:scale(.98);}
+.opt.on{border-color:var(--pink);color:var(--ink);
+  background:linear-gradient(180deg,#FFECF6,#FFD8EC);
+  box-shadow:0 0 0 3px rgba(255,143,192,.22),0 10px 20px rgba(226,88,156,.2);
+  animation:jelly .34s cubic-bezier(.3,.9,.3,1.4);}
+@keyframes jelly{0%{transform:scale(1)}32%{transform:scale(.965)}66%{transform:scale(1.035)}100%{transform:scale(1)}}
+.opt.on::after{content:"♥";position:absolute;right:14px;top:11px;font-size:14px;color:var(--pink-d);
+  animation:pop .34s cubic-bezier(.2,.9,.3,1.6) both;}
+@keyframes pop{from{transform:scale(0) rotate(-30deg)}to{transform:scale(1) rotate(0)}}
+.opt .k{flex:none;width:26px;height:26px;border-radius:9px;background:#fff;border:1.5px solid #EFE1EF;
+  color:var(--sub);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px;
+  transition:.2s;}
+.opt.on .k{background:var(--pink);border-color:var(--pink);color:#fff;box-shadow:0 2px 0 var(--pink-d);}
+.q-foot{display:flex;align-items:center;gap:12px;margin-top:16px;}
+.link-btn{background:none;border:none;font-family:inherit;font-size:13px;color:var(--sub);
+  padding:12px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;}
+.q-foot .btn{flex:1;margin:0;}
+ 
+/* ================= 扫描（MV 录像带感） ================= */
+.scan-card{text-align:center;padding:36px 22px 32px;}
+.scan-heart{display:flex;justify-content:center;margin-bottom:16px;animation:hb 1.1s ease-in-out infinite;}
+@keyframes hb{0%,100%{transform:scale(1)}40%{transform:scale(1.16)}70%{transform:scale(.98)}}
+.scan-txt{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px;letter-spacing:4px;color:var(--ink2);}
+.cur{color:var(--pink-d);animation:blink .9s steps(1,end) infinite;}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+.eq{display:flex;justify-content:center;align-items:flex-end;gap:5px;height:34px;margin:18px 0 14px;}
+.eq i{width:7px;height:12px;border-radius:2px 2px 0 0;background:linear-gradient(180deg,var(--pink),var(--lilac));
+  animation:eqbar .9s ease-in-out infinite;}
+.eq i:nth-child(1){animation-delay:0s}.eq i:nth-child(2){animation-delay:.12s}
+.eq i:nth-child(3){animation-delay:.24s}.eq i:nth-child(4){animation-delay:.36s}
+.eq i:nth-child(5){animation-delay:.48s}.eq i:nth-child(6){animation-delay:.6s}
+.eq i:nth-child(7){animation-delay:.72s}
+@keyframes eqbar{0%,100%{height:8px}50%{height:32px}}
+.scan-bar{height:9px;border-radius:999px;background:#F3E7F4;overflow:hidden;margin-bottom:12px;}
+.scan-bar > i{display:block;height:100%;width:100%;border-radius:999px;
+  background:linear-gradient(90deg,var(--sky),var(--lilac) 50%,var(--pink));
+  animation:scanfill 1.5s linear forwards;}
+@keyframes scanfill{from{width:4%}to{width:100%}}
+.scan-sub{font-size:12.5px;color:var(--sub);letter-spacing:.5px;}
+ 
+/* ================= 结果页 ================= */
+.r-hero{text-align:center;padding:30px 18px 26px;}
+.r-region{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:9.5px;letter-spacing:3.5px;
+  color:var(--sub);margin-bottom:12px;}
+.r-name{display:flex;justify-content:center;align-items:center;min-height:60px;margin:0 0 4px;}
+.r-name img{image-rendering:pixelated;image-rendering:-moz-crisp-edges;max-width:100%;
+  filter:drop-shadow(3px 3px 0 rgba(255,255,255,.98)) drop-shadow(7px 8px 0 rgba(193,163,255,.5));
+  animation:namein .6s cubic-bezier(.2,.9,.3,1.4) both;}
+@keyframes namein{from{opacity:0;transform:scale(.7) rotate(-4deg)}to{opacity:1;transform:none}}
+.r-name-fb{font-size:32px;font-weight:800;letter-spacing:3px;color:var(--pink-d);}
+.r-en{font-size:12.5px;color:var(--sub);letter-spacing:.5px;margin-bottom:14px;}
+.r-tags{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-bottom:20px;}
+.r-tags span{font-size:12px;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.92);
+  border:1.5px solid #fff;color:var(--pink-d);font-weight:600;box-shadow:0 3px 8px rgba(160,120,190,.14);}
+.r-tags span:nth-child(2n){background:#F4EEFF;color:#7A5FC0;}
+.r-tags span:nth-child(3n){background:#E7FAF4;color:#3F8E77;}
+ 
+.ring-wrap{display:flex;align-items:center;justify-content:center;gap:16px;}
+.ring{width:84px;height:84px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  position:relative;background:conic-gradient(from -90deg,var(--pink) calc(var(--p) * 1%),rgba(255,255,255,.8) 0);
+  box-shadow:0 0 0 4px #fff,0 10px 20px rgba(226,88,156,.24);flex:none;}
+.ring::before{content:"";position:absolute;inset:8px;border-radius:50%;background:#fff;}
+.ring span{position:relative;font-size:21px;font-weight:800;color:var(--ink);letter-spacing:-.5px;}
+.ring span i{font-size:11px;font-style:normal;font-weight:600;color:var(--sub);margin-left:1px;}
+.ring-label{text-align:left;font-size:13px;color:var(--sub);line-height:1.6;}
+.ring-label b{display:block;font-size:15px;color:var(--ink);font-weight:700;}
+ 
+.fly{position:absolute;bottom:78px;opacity:0;pointer-events:none;animation:fly 2.3s ease-out forwards;}
+@keyframes fly{0%{opacity:0;transform:translateY(0) scale(.5) rotate(0)}
+  14%{opacity:1;transform:translateY(-18px) scale(1.05) rotate(-8deg)}
+  100%{opacity:0;transform:translateY(-160px) scale(.9) rotate(14deg)}}
+ 
+.sec-title{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10.5px;letter-spacing:2.5px;
+  color:var(--sub);margin:0 0 11px;display:flex;align-items:center;gap:8px;}
+.sec-title::after{content:"";flex:1;height:0;border-top:2px dotted #EED9E8;}
+.profile{display:flex;flex-wrap:wrap;gap:8px;}
+.profile span{font-size:12.5px;font-weight:600;padding:6px 13px;border-radius:11px;
+  background:rgba(255,255,255,.92);color:#6C5A8E;border:1.5px solid #fff;
+  box-shadow:0 3px 8px rgba(160,120,190,.13);}
+ 
+.mix{margin-top:18px;}
+.mix-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+.mix-n{flex:none;width:66px;font-size:11.5px;font-weight:700;letter-spacing:.5px;color:var(--ink2);}
+.mix-bar{flex:1;height:11px;border-radius:999px;background:rgba(255,255,255,.8);overflow:hidden;
+  box-shadow:inset 0 2px 4px rgba(160,120,190,.14);}
+.mix-bar > i{display:block;height:100%;border-radius:999px;width:0;
+  background:linear-gradient(90deg,#93CDFF,#C1A3FF 50%,#FF8FC0);
+  transition:width .9s cubic-bezier(.2,.9,.3,1);}
+.mix-p{flex:none;width:38px;text-align:right;font-size:11.5px;color:var(--sub);font-weight:600;}
+ 
+.blocks{margin-top:20px;}
+.block{border-radius:16px;padding:15px 16px;margin-bottom:11px;border:1.5px solid #fff;
+  box-shadow:0 4px 12px rgba(160,120,190,.11);}
+.block .bt{font-size:13px;font-weight:700;letter-spacing:.5px;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.block p{margin:0;font-size:14px;line-height:1.85;color:var(--ink2);}
+.b-hl{background:linear-gradient(180deg,#FFF0F7,#FFE4F1);}
+.b-hl .bt{color:#D84C93;}
+.b-fit{background:linear-gradient(180deg,#EDFCF7,#DFF8EE);}
+.b-fit .bt{color:#3F8E77;}
+.b-bad{background:linear-gradient(180deg,#F1F4FF,#E6ECFF);}
+.b-bad .bt{color:#5F6BB0;}
+ 
+.alt{display:flex;gap:10px;margin-top:4px;}
+.alt-c{flex:1;background:rgba(255,255,255,.9);border:1.5px solid #fff;border-radius:16px;padding:14px 13px;
+  text-align:left;box-shadow:0 4px 12px rgba(160,120,190,.11);}
+.alt-c .an{font-size:15px;font-weight:800;letter-spacing:1px;}
+.alt-c .ar{font-size:11px;color:var(--sub);margin-bottom:7px;}
+.alt-c .as{font-size:12px;color:var(--pink-d);font-weight:700;}
+.alt-c .ad{font-size:12px;color:var(--sub);line-height:1.6;margin-top:6px;}
+ 
+.actions{margin-top:22px;display:flex;flex-direction:column;gap:11px;}
+.tip{margin-top:14px;font-size:12px;color:var(--sub);text-align:center;line-height:1.7;}
+.foot{text-align:center;font-size:11.5px;color:#BBAFC8;margin-top:26px;line-height:1.8;}
+.toast{position:fixed;left:50%;bottom:38px;transform:translateX(-50%) translateY(10px);z-index:60;
+  background:linear-gradient(180deg,#4A3A5E,#3A2C4C);color:#fff;font-size:13px;padding:11px 20px;
+  border-radius:999px;opacity:0;pointer-events:none;transition:.28s;max-width:82%;text-align:center;
+  box-shadow:0 8px 22px rgba(58,44,76,.35);border:1px solid rgba(255,255,255,.18);}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+ 
+.reveal{animation:rise .55s cubic-bezier(.2,.9,.3,1.12) both;animation-delay:var(--d,0s);}
+@keyframes rise{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:none}}
+ 
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
+}
+</style>
+</head>
+<body>
+<div class="bgfx" aria-hidden="true">
+  <div class="blob b1"></div><div class="blob b2"></div>
+  <div class="blob b3"></div><div class="blob b4"></div>
+  <div class="pstar plus" style="top:14%;left:8%;animation-delay:0s"></div>
+  <div class="pstar" style="top:26%;right:12%;animation-delay:.6s"></div>
+  <div class="pstar plus" style="top:52%;left:6%;animation-delay:1.1s"></div>
+  <div class="pstar" style="top:70%;right:9%;animation-delay:.35s"></div>
+  <div class="pstar plus" style="top:84%;left:14%;animation-delay:1.5s"></div>
+  <div class="pstar" style="top:38%;right:5%;animation-delay:.9s"></div>
+  <div class="grain"></div>
+  <div class="scan"></div>
+</div>
+ 
+<div class="app">
+ 
+  <header class="topbar">
+    <div class="row">
+      <span class="rec"><i></i>REC</span>
+      <div class="tt">测测你是 NewJeans 里的谁<span class="div">|</span><span class="ts">你是 Minji、Hanni、Danielle、Haerin 还是 Hyein？</span></div>
+    </div>
+  </header>
+ 
+  <div class="marquee" aria-hidden="true"><span>✦ NEWJEANS ✦ 25 PERSONAS ✦ DITTO ✦ HYPE BOY ✦ ETA ✦ COOL WITH YOU ✦ NJZ ✦ Y2K DREAMCORE ✦ ✦ NEWJEANS ✦ 25 PERSONAS ✦ DITTO ✦ HYPE BOY ✦ ETA ✦ COOL WITH YOU ✦ NJZ ✦ Y2K DREAMCORE ✦</span></div>
+ 
+  <!-- ============ COVER ============ -->
+  <section class="page" id="pg-cover">
+    <div class="card cover-card">
+      <div class="pxrow" id="pxrow"></div>
+      <span class="cover-kicker">NEWJEANS · 人格测试</span>
+      <h1 class="cover-title">测测你是<br>NewJeans 里的谁</h1>
+      <p class="cover-sub">五个人，五种颜色，你是哪一种？</p>
+      <div class="cover-line"></div>
+      <p class="cover-intro">不是看脸，也不是玄学。<b>15 道题</b>聊聊你的性格、审美、社交方式和深夜状态，
+        再从 <b>5 位成员 × 5 种情境 = 25 个人格</b>里，找出和你最像的那一个。<br><br>
+        也许是练习室里默默加练的敏智，也许是舞台上笑到发光的丹妮尔——做完你就知道了。</p>
+      <div class="chips">
+        <span class="chip">15 道题</span>
+        <span class="chip">约 3 分钟</span>
+        <span class="chip">25 种人格</span>
+      </div>
+      <button class="btn btn-primary" id="btn-start">开始测试</button>
+      <p class="cover-note">无广告 · 不收集任何信息 · 结果可一键复制</p>
+    </div>
+  </section>
+ 
+  <!-- ============ QUIZ ============ -->
+  <section class="page hidden" id="pg-quiz">
+    <div class="card">
+      <div class="q-head">
+        <span class="q-num">QUESTION <b id="q-idx">01</b> / 15</span>
+        <span class="q-num" id="q-topic"></span>
+      </div>
+      <div class="bar"><i id="q-bar" style="width:6%"></i></div>
+      <h2 class="q-title" id="q-title"></h2>
+      <div id="q-opts"></div>
+      <div class="q-foot">
+        <button class="link-btn hidden" id="btn-prev">上一题</button>
+        <button class="btn btn-primary" id="btn-next" disabled>下一题</button>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- ============ SCAN（录像带分析感过场） ============ -->
+  <section class="page hidden" id="pg-scan">
+    <div class="card scan-card">
+      <div class="scan-heart" id="scan-heart"></div>
+      <div class="scan-txt">ANALYZING<span class="cur">_</span></div>
+      <div class="eq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="scan-bar"><i></i></div>
+      <div class="scan-sub">正在比对 25 个人格…</div>
+    </div>
+  </section>
+ 
+  <!-- ============ RESULT ============ -->
+  <section class="page hidden" id="pg-result">
+    <span class="sr" id="r-city"></span>
+ 
+    <div class="card r-hero reveal" id="r-hero" style="--d:0s">
+      <div class="r-region" id="r-region"></div>
+      <div class="r-name" id="r-name"></div>
+      <div class="r-en" id="r-en"></div>
+      <div class="r-tags" id="r-tags"></div>
+      <div class="ring-wrap">
+        <div class="ring" id="r-ring"><span id="r-score">0<i>%</i></span></div>
+        <div class="ring-label"><b id="r-sit"></b>和你最相似</div>
+      </div>
+    </div>
+ 
+    <div class="card reveal" style="--d:.12s;margin-top:14px;">
+      <div class="sec-title">你的性格关键词</div>
+      <div class="profile" id="r-profile"></div>
+ 
+      <div class="mix">
+        <div class="sec-title">你的 NewJeans 成员底色</div>
+        <div id="r-mix"></div>
+      </div>
+    </div>
+ 
+    <div class="card blocks reveal" style="--d:.24s;margin-top:14px;">
+      <div class="block b-hl"><div class="bt">✨ 你给人的感觉</div><p id="r-hl"></p></div>
+      <div class="block b-fit"><div class="bt">🌿 你是这样的人</div><p id="r-fit"></p></div>
+      <div class="block b-bad"><div class="bt">💌 温柔提醒</div><p id="r-bad"></p></div>
+ 
+      <div class="sec-title" style="margin-top:20px;">和你也很像的两个人格</div>
+      <div class="alt" id="r-alt"></div>
+ 
+      <div class="actions">
+        <button class="btn btn-primary" id="btn-copy">复制结果文案</button>
+        <button class="btn btn-ghost" id="btn-restart">重新测试</button>
+      </div>
+      <p class="tip">结果仅供参考，开心最重要 🫧</p>
+    </div>
+ 
+    <p class="foot">本测试为非官方粉丝向创作，与艺人及所属公司无关。<br>题目与文案均为原创，祝玩得开心。</p>
+  </section>
+ 
+</div>
+<div class="toast" id="toast"></div>
+ 
+ 
+<script>
+/* ==================================================================
+   1. 维度定义（换主题时改这里）
+   ================================================================== */
+const DIMS = [
+  {key:'energy', w:1.15, name:'外向活力', dict:[[30,'安静内敛'],[45,'慢热型'],[60,'动静适中'],[78,'开朗外放'],[101,'气氛担当']]},
+  {key:'sweet',  w:1.00, name:'清甜度',   dict:[[30,'偏酷冷淡'],[45,'干净清爽'],[60,'柔和温吞'],[78,'清甜可爱'],[101,'甜度满分']]},
+  {key:'lead',   w:1.30, name:'担当感',   dict:[[30,'随性跟随'],[45,'配合型'],[60,'能扛事'],[78,'主导型'],[101,'天生队长']]},
+  {key:'relax',  w:0.80, name:'松弛感',   dict:[[30,'认真紧绷'],[45,'有分寸'],[60,'收放自如'],[78,'松弛自在'],[101,'完全躺平']]},
+  {key:'emo',    w:1.20, name:'感性度',   dict:[[30,'理性淡定'],[45,'情绪稳定'],[60,'心思细腻'],[78,'共情力强'],[101,'感性到底']]},
+  {key:'style',  w:0.70, name:'风格感',   dict:[[30,'复古文艺'],[45,'舒服就好'],[60,'干净简约'],[78,'很有风格'],[101,'时髦先锋']]},
+  {key:'maknae', w:0.85, name:'少年感',   dict:[[30,'成熟姐姐感'],[45,'偏沉稳'],[60,'同龄感'],[78,'带点少年气'],[101,'忙内本内']]}
+];
+ 
+/* ==================================================================
+   2. 题目（15 题 × 4 选项，每个选项给出若干维度分值 0-100）
+   ================================================================== */
+const QUESTIONS = [
+  {q:'周末你最可能是怎么过的？', topic:'日常节奏', o:[
+    {t:'约朋友出门，逛逛吃吃拍照', v:{energy:86, relax:68, sweet:66}},
+    {t:'在家躺着，刷剧刷手机一整天', v:{energy:24, relax:90, maknae:56}},
+    {t:'一个人去咖啡店或书店待着', v:{energy:32, style:26, emo:62, relax:66}},
+    {t:'把自己安排满：健身、上课、办事', v:{lead:80, relax:24, energy:60}}]},
+ 
+  {q:'朋友聚在一起时，你通常是？', topic:'社交方式', o:[
+    {t:'气氛担当，话最多、最爱闹', v:{energy:94, sweet:70, relax:76}},
+    {t:'听着大家聊，偶尔丢一句金句', v:{energy:34, emo:66, lead:46}},
+    {t:'默默把事情安排好的那个人', v:{lead:90, energy:44, relax:38}},
+    {t:'玩到一半就想回家躺平', v:{relax:88, energy:28, maknae:52}}]},
+ 
+  {q:'拍照的时候你更像哪种？', topic:'镜头感', o:[
+    {t:'表情丰富、动作很多、很会摆', v:{energy:82, sweet:76, lead:58}},
+    {t:'淡淡一张，越酷越好', v:{style:82, energy:28, sweet:32}},
+    {t:'不太会摆，但笑得特别真', v:{relax:78, emo:56, maknae:56, sweet:62}},
+    {t:'喜欢胶片感和复古滤镜', v:{style:16, emo:68, relax:60}}]},
+ 
+  {q:'你的衣柜里最多的是？', topic:'审美偏好', o:[
+    {t:'甜甜的、有少女感的单品', v:{sweet:90, maknae:66, energy:62}},
+    {t:'简约基础款，舒服第一', v:{relax:86, style:48, emo:46}},
+    {t:'有点设计感、别人没有的款', v:{style:88, lead:58, energy:52}},
+    {t:'运动休闲，随时能动起来', v:{energy:80, relax:72, maknae:54}}]},
+ 
+  {q:'听到一首很喜欢的歌，你的第一反应？', topic:'音乐反应', o:[
+    {t:'跟着哼、跟着动起来', v:{energy:90, sweet:70, relax:74}},
+    {t:'循环播放，看歌词看到出神', v:{emo:90, energy:26, style:38}},
+    {t:'立刻分享给朋友安利', v:{energy:72, sweet:66, lead:56}},
+    {t:'研究编曲、舞蹈和细节', v:{lead:70, style:66, relax:28}}]},
+ 
+  {q:'压力很大的时候你会？', topic:'抗压方式', o:[
+    {t:'找人聊聊，说完就好多了', v:{energy:78, emo:58, sweet:60}},
+    {t:'自己消化，不太想说出来', v:{emo:72, energy:24, lead:56}},
+    {t:'把事情列出来，一件件做完', v:{lead:88, relax:22}},
+    {t:'先摆烂一阵，再重新开始', v:{relax:90, maknae:62, energy:40}}]},
+ 
+  {q:'朋友最常怎么形容你？', topic:'他人印象', o:[
+    {t:'可靠、靠谱、能扛事', v:{lead:90, relax:38, emo:48}},
+    {t:'有趣、好笑、在一起很开心', v:{energy:86, sweet:70, relax:74}},
+    {t:'温柔、细心、会照顾人', v:{emo:82, sweet:76, energy:48}},
+    {t:'有个性、有点酷、猜不透', v:{style:84, energy:30, maknae:46}}]},
+ 
+  {q:'理想中的一天旅行是？', topic:'生活方式', o:[
+    {t:'打卡热门店和景点，行程排满', v:{energy:84, lead:66, style:60}},
+    {t:'随便走走，迷路也无所谓', v:{relax:90, emo:56, energy:52}},
+    {t:'找一个安静的地方待一整天', v:{energy:22, relax:82, style:24}},
+    {t:'拍很多照片，出片最重要', v:{style:86, sweet:66, energy:64}}]},
+ 
+  {q:'追星的时候你最在意什么？', topic:'追星偏好', o:[
+    {t:'舞台表现力和硬实力', v:{lead:76, style:70, relax:28}},
+    {t:'性格和真实感', v:{emo:82, relax:72, sweet:60}},
+    {t:'颜值和氛围感', v:{sweet:82, style:72, maknae:52}},
+    {t:'努力和成长的过程', v:{emo:70, lead:66, maknae:56, energy:56}}]},
+ 
+  {q:'手机相册里最多的是什么？', topic:'生活痕迹', o:[
+    {t:'自拍和各种合照', v:{energy:76, sweet:80, maknae:58}},
+    {t:'风景、天空、路上的小东西', v:{emo:80, style:28, relax:64}},
+    {t:'穿搭和镜子前的随手拍', v:{style:90, lead:56, energy:58}},
+    {t:'截图、备忘录、乱七八糟', v:{relax:82, maknae:58, emo:52}}]},
+ 
+  {q:'深夜一个人的时候，你通常？', topic:'深夜状态', o:[
+    {t:'刷手机到停不下来', v:{relax:82, maknae:60, energy:44}},
+    {t:'想很多，容易 emo', v:{emo:92, energy:20, style:42}},
+    {t:'把明天的事想清楚再睡', v:{lead:80, relax:28, emo:38}},
+    {t:'听着歌发呆，什么都不想', v:{emo:72, style:34, relax:70}}]},
+ 
+  {q:'和别人有分歧时，你会？', topic:'人际边界', o:[
+    {t:'直接说出来，当场讲清', v:{energy:82, lead:70, relax:44}},
+    {t:'先顺着，回头再表达', v:{relax:80, emo:60, energy:42}},
+    {t:'讲道理，把事情捋顺', v:{lead:84, emo:38, relax:36}},
+    {t:'不太想争，算了就好', v:{relax:88, energy:24, sweet:58}}]},
+ 
+  {q:'学习或工作时，你更像？', topic:'做事风格', o:[
+    {t:'计划型，按表执行', v:{lead:88, relax:22}},
+    {t:'灵感型，状态来了就猛做', v:{style:74, emo:60, relax:62}},
+    {t:'有人一起才做得下去', v:{energy:80, sweet:66, maknae:54}},
+    {t:'拖到最后一刻爆发奇迹', v:{relax:90, maknae:66, energy:46}}]},
+ 
+  {q:'别人不知道的那一面，你更像哪种？', topic:'反差面', o:[
+    {t:'看起来很乖，其实很有主见', v:{lead:82, sweet:70, relax:44}},
+    {t:'看起来很酷，其实很柔软', v:{emo:88, style:76, energy:36}},
+    {t:'看起来很开朗，其实很怕孤单', v:{emo:90, energy:70, sweet:66}},
+    {t:'看起来很随性，其实超较真', v:{lead:72, relax:28, style:60}}]},
+ 
+  {q:'你最希望被别人记住的样子是？', topic:'自我期待', o:[
+    {t:'那个让人安心的人', v:{lead:90, emo:60, sweet:62}},
+    {t:'那个带来快乐的人', v:{energy:88, sweet:76, relax:72}},
+    {t:'那个很有自己风格的人', v:{style:90, lead:58, energy:52}},
+    {t:'那个真实、不装的自己', v:{relax:86, emo:66, sweet:58}}]}
+];
+ 
+/* ==================================================================
+   3. 结果池：5 位成员 × 5 种情境 = 25 个人格
+   结果向量 = 成员底色 + 情境偏移（保证同成员有区分度，又不失去成员特征）
+   ================================================================== */
+const MEMBERS = {
+  minji:    {n:'MINJI',    cn:'敏智',   v:{energy:45, sweet:52, lead:88, relax:40, emo:46, style:56, maknae:28}},
+  hanni:    {n:'HANNI',    cn:'哈妮',   v:{energy:88, sweet:76, lead:62, relax:74, emo:62, style:62, maknae:46}},
+  danielle: {n:'DANIELLE', cn:'丹妮尔', v:{energy:84, sweet:88, lead:54, relax:80, emo:56, style:68, maknae:62}},
+  haerin:   {n:'HAERIN',   cn:'海粼',   v:{energy:32, sweet:44, lead:52, relax:64, emo:42, style:84, maknae:48}},
+  hyein:    {n:'HYEIN',    cn:'慧仁',   v:{energy:58, sweet:60, lead:42, relax:70, emo:54, style:78, maknae:90}}
+};
+ 
+const SITS = [
+  {key:'practice', label:'练习室', en:'PRACTICE ROOM', d:{energy:-12, sweet:-6, lead:10, relax:-22, emo:4,  style:-10, maknae:-6}},
+  {key:'stage',    label:'舞台',   en:'ON STAGE',      d:{energy:20,  sweet:6,  lead:14, relax:-12, emo:6,  style:16,  maknae:0}},
+  {key:'variety',  label:'镜头前', en:'ON CAMERA',     d:{energy:22,  sweet:14, lead:-6, relax:20,  emo:10, style:4,   maknae:6}},
+  {key:'daily',    label:'日常',   en:'OFF DUTY',      d:{energy:-8,  sweet:10, lead:-12,relax:26,  emo:6,  style:-16, maknae:2}},
+  {key:'night',    label:'深夜',   en:'MIDNIGHT',      d:{energy:-26, sweet:2,  lead:-14,relax:6,   emo:26, style:-6,  maknae:-4}}
+];
+ 
+/* 25 段小红书风格文案：[标签×3, 你给人的感觉, 你是这样的人, 温柔提醒] */
+const COPY = {
+  'minji-practice':   [['默默加练','动作最标准','不喊累'],
+    '你身上有一种安静的可靠感：不张扬、不抢镜，但每次回头看，你都还在原地稳稳地站着，让人莫名安心。',
+    '适合那种把目标写在本子上、然后一步步做完的人。你不太需要别人推着走，因为发令枪本来就握在你自己手里。',
+    '太能扛的人常常忘了喊累。累的时候请允许自己停下来——被照顾，也是一种需要练习的能力。'],
+  'minji-stage':      [['控场感','眼神有力量','越看越上头'],
+    '一站到聚光灯下，你就自动切换成"交给我"的模式：动作干脆、眼神稳定，天生有种让人信服的气场。',
+    '适合习惯承担、关键时刻靠得住的人。你不一定是话最多的那个，但你说出口的话，大家会听。',
+    '控场久了容易忘了自己也该被照顾。偶尔把主导权交出去一次，你会发现整个人都轻了。'],
+  'minji-variety':    [['冷幽默','慢热但真','反差感'],
+    '镜头前你不是最闹的那个，却总在关键时刻丢出一句让人笑疯的话——反差感，就是你的记忆点。',
+    '适合不擅长抢话、但一开口就有内容的人。你的有趣是慢热型的，相处越久越上头。',
+    '慢热很容易被误认为冷淡。遇到想靠近的人，主动那么一点点就好，真的只需要一点点。'],
+  'minji-daily':      [['素颜感','早起型','生活极简'],
+    '私下的你简单、清爽、好接近，喜欢把生活过得有秩序，舒服这件事永远排在好看前面一点。',
+    '适合享受独处、把日子过得有节奏的人。你的松弛感不是躺平，而是"我把自己照顾得很好"的底气。',
+    '太有规律有时会错过临时的快乐。偶尔放自己一天假，乱一点、晚一点，也没关系的。'],
+  'minji-night':      [['深夜想很多','不轻易说','内心很软'],
+    '深夜的你比白天柔软太多。白天扛住的那些事，会在夜里慢慢浮上来，你习惯一个人消化完，第二天再若无其事。',
+    '适合情绪内收、不太愿意麻烦别人的人。你的成熟是真的，只是这份成熟有点辛苦。',
+    '什么都自己消化，是会把自己憋坏的。找一个能说话的人，说出口的那一刻，重量会少一半。'],
+ 
+  'hanni-practice':   [['边练边笑','学得很快','练习室气氛组'],
+    '你连练习室都能过成有笑声的地方：学动作快、记词快，累到不行的时候还能顺手把大家的情绪带起来。',
+    '适合在压力里照样能开玩笑的人。你的天赋不是努力，而是"让事情变轻"——这比努力更难得。',
+    '太会活跃气氛的人，常常没人发现你也累。笑不出来的时候，可以直接说出来的。'],
+  'hanni-stage':      [['镜头宠儿','感染力','越跳越亮'],
+    '一上台你的能量就整格往外冒，表情、眼神、节奏全是活的，观众的眼睛很难不跟着你走。',
+    '适合享受被看见、也真心喜欢舞台的人。你的快乐是会传染的那一种，藏都藏不住。',
+    '状态不好的时候别硬撑着笑。真实的你同样好看，甚至比强撑的时候更好看。'],
+  'hanni-variety':    [['综艺感','反应王','接梗快'],
+    '镜头一开你就自动进入反应模式：接梗快、表情多，天生知道什么时候该给什么反应。',
+    '适合脑子转得快、喜欢逗人笑的人。你是那种"有你在，场子就不会冷"的存在。',
+    '一直照顾气氛是会累的。偶尔安静下来，大家也一样喜欢你，真的。'],
+  'hanni-daily':      [['好约','朋友圈很广','随性'],
+    '私下的你好约、好聊、好相处，朋友一喊就出门，日子过得热气腾腾，一点都不精致但很有劲。',
+    '适合把朋友当作能量来源的人。你的日常不高级，但特别有生命力——这其实很迷人。',
+    '把时间都给别人，自己的事就会被一直往后排。记得给自己留一点，你也需要被约。'],
+  'hanni-night':      [['夜里感性','容易想家','爱发呆'],
+    '白天的热闹退掉之后，深夜的你会安静下来：翻翻聊天记录、听听歌，然后有点想家。',
+    '适合把情绪留到夜里慢慢处理的人。你的活泼不是没心没肺，只是把想说的话都放在了白天。',
+    '夜里特别容易放大小事。别在最晚的时候做任何决定，睡一觉，天亮了就不一样了。'],
+ 
+  'danielle-practice':[['元气满格','不怕重来','爱提问'],
+    '练一遍又一遍你也不烦，摔了拍拍就起来，练习室里最不缺的就是你那句"再来一次"。',
+    '适合把努力当习惯、相信"多练一次就会好一点"的人。你的乐观不是天真，是真的有力量。',
+    '一直冲会忽略身体发出的信号。休息也是训练的一部分，别把自己练到讨厌它。'],
+  'danielle-stage':   [['甜度爆表','笑容杀','元气弹'],
+    '舞台上的你像一颗元气弹，笑起来的时候整个场子都亮了，甜但不腻，辨识度高得离谱。',
+    '适合天生讨喜、把快乐带给别人的人。你的存在感不需要刻意制造，它自己会发光。',
+    '一直当小太阳是会累的。允许自己有阴天，你不必永远负责让所有人开心。'],
+  'danielle-variety': [['反应夸张','超会捧场','真诚'],
+    '镜头前你永远给足反应，别人说什么你都真心捧场，那种热乎劲儿特别圈人，因为在镜头里装不出来。',
+    '适合表达直接、喜欢夸人也真心爱热闹的人。你让身边的每个人都觉得自己被看见了。',
+    '太捧场有时会把真实想法藏起来。不想笑的时候可以不用笑，你的真实比礼貌更可爱。'],
+  'danielle-daily':   [['爱户外','晒太阳','喜欢小动物'],
+    '私下的你向往阳光、草地和风，能出门就绝不待着，喜欢一切毛茸茸和亮晶晶的小东西。',
+    '适合把快乐建立在"很具体的小时刻"上的人。你的幸福感门槛很低，这是很难得的天赋。',
+    '太随性会让计划一件件落空。重要的事还是写下来比较稳，写下来就跑不掉。'],
+  'danielle-night':   [['想家','写点东西','夜里柔软'],
+    '深夜的你比白天安静许多，会写点东西、看看远方家人的照片，白天那个元气宝宝，原来也需要被抱一抱。',
+    '适合把想念藏在心里、用文字安放情绪的人。你的柔软，是你最真的那一部分。',
+    '想家的时候就打个电话吧。别把情绪攒到很深才说，说出来，距离好像就短一点。'],
+ 
+  'haerin-practice':  [['细节控','话少动作准','盯着镜子'],
+    '练习室里你话最少，但每个动作都抠到最准，镜子里的那双眼睛，一直在安静地检查自己。',
+    '适合靠观察而不是表达来进步的人。你不太需要被夸，你要的是"我自己知道，我做对了"。',
+    '对自己要求太高反而会卡住。做到八成也可以先交卷，剩下的留给下一遍。'],
+  'haerin-stage':     [['高级脸','冷感魅力','越静越抓人'],
+    '舞台上的你不抢不闹，一个眼神就能把人钉住。那种"什么都不多给"的克制，反而特别高级。',
+    '适合气场偏冷、靠氛围而不是表情取胜的人。你的魅力，是做减法做出来的。',
+    '克制久了容易被误会成不好接近。偶尔多给一点点，会有人因此更靠近你一点。'],
+  'haerin-variety':   [['猫系反应','慢半拍的可爱','观察型'],
+    '镜头前你常常慢半拍才反应过来，那句"啊？"的空白反而最可爱，真实得完全不像在营业。',
+    '适合不擅长表演热情、但胜在真实的人。你的可爱不是设计出来的，是漏出来的。',
+    '不习惯表达，会被认为冷淡。试着多说一句，大家就会更懂你一点。'],
+  'haerin-daily':     [['穿搭有想法','爱逛店','独处充电'],
+    '私下的你很会穿，审美有自己的一套，喜欢一个人慢慢逛、慢慢挑，不被别人的节奏带着走。',
+    '适合把"我喜不喜欢"看得比"流不流行"重要的人。你的风格感是天生的，别把它弄丢了。',
+    '太有主见有时听不进建议。偶尔接受一次别人的安排，也可能有意外的惊喜。'],
+  'haerin-night':     [['深夜听歌','不想被打扰','内心戏很多'],
+    '深夜的你把门关上、戴上耳机，世界终于只剩自己。白天装下的那些东西，这时才慢慢摊开。',
+    '适合需要独处来充电、情绪在夜里才归位的人。你的安静不是孤独，是在回血。',
+    '一个人扛情绪久了会闷。找个人说一说，哪怕只说一半，也会轻松很多。'],
+ 
+  'hyein-practice':   [['偷师型','进步最快','眼神跟着前辈'],
+    '你会默默看着前辈怎么做，然后悄悄学会，进步速度总比别人预想的快那么一点点。',
+    '适合学习力强、靠模仿和观察成长的人。你还年轻，时间稳稳地站在你这边。',
+    '别急着和别人比进度。你的节奏已经很快了，稳一点，反而走得更远。'],
+  'hyein-stage':      [['腿长优势','又酷又嫩','不怯场'],
+    '舞台上的你又酷又嫩，动作里带着少年人才有的利落感，明明最小，却一点都不怯场。',
+    '适合还没被定义、什么都敢试的人。你现在的样子，比你现在以为的小得多。',
+    '被夸"一点都不像忙内"的时候别太当真。你还不需要这么快长大，真的。'],
+  'hyein-variety':    [['忙内特权','撒娇很自然','被宠着'],
+    '镜头前你天然带点被宠的小孩感，撒娇不刻意，说错话也容易被原谅——这是你独有的特权。',
+    '适合被照顾着长大、也真心依赖身边人的人。会撒娇不是幼稚，是一种坦率的信任。',
+    '别总躲在姐姐们身后。该你说话的时候就站出来，大家其实很想听你说。'],
+  'hyein-daily':      [['爱睡觉','零食控','还在长'],
+    '私下的你就是个还没长大的小孩：能吃能睡，书包里永远有零食，世界对你来说还很新。',
+    '适合把生活过得简单、快乐来源很朴素的人。这种轻盈，值得留得久一点。',
+    '熬夜和乱吃，身体会一笔笔记下来。年轻也不是无限的额度哦。'],
+  'hyein-night':      [['怕黑型','想被哄','容易做梦'],
+    '深夜的你比白天脆弱一点，会想很多、也会害怕，白天那股酷劲儿在夜里偷偷收起来了。',
+    '适合白天装大人、夜里还是小孩的人。你的两面都很真，不用急着把它们统一起来。',
+    '害怕的时候就开一盏小灯、发一条消息。说出来，好像就没那么怕了。']
+};
+ 
+/* 25 个结果的坐标微调表（由 _tune.js 自动调优写入，勿手改）
+   为什么需要：只靠"成员底色 + 情境偏移"生成坐标时，有些组合落得离用户分布中心太近
+   （会吸走大量用户），有些太靠边缘（几乎没人能命中）。这张表负责把 25 个结果的命中率拉平。 */
+const TWEAK = {"minji-practice":{"energy":11,"sweet":10,"lead":-16,"relax":20,"emo":5,"style":8,"maknae":12},"minji-stage":{"energy":0,"sweet":2,"lead":-12,"relax":11,"emo":2,"style":0,"maknae":8},"minji-variety":{"energy":0,"sweet":0,"lead":7,"relax":-1,"emo":0,"style":0,"maknae":-6},"minji-daily":{"energy":0,"sweet":0,"lead":0,"relax":0,"emo":0,"style":-2,"maknae":0},"minji-night":{"energy":7,"sweet":0,"lead":0,"relax":2,"emo":0,"style":0,"maknae":4},"hanni-practice":{"energy":6,"sweet":0,"lead":4,"relax":-6,"emo":0,"style":-4,"maknae":-4},"hanni-stage":{"energy":4,"sweet":0,"lead":0,"relax":0,"emo":0,"style":0,"maknae":0},"hanni-variety":{"energy":-7,"sweet":-2,"lead":0,"relax":-5,"emo":0,"style":0,"maknae":0},"danielle-practice":{"energy":12,"sweet":12,"lead":7,"relax":-11,"emo":0,"style":-7,"maknae":0},"danielle-stage":{"energy":-9,"sweet":-5,"lead":0,"relax":0,"emo":0,"style":-3,"maknae":0},"danielle-variety":{"energy":-17,"sweet":-12,"lead":3,"relax":-11,"emo":0,"style":0,"maknae":-4},"danielle-daily":{"energy":-3,"sweet":-7,"lead":3,"relax":-9,"emo":0,"style":3,"maknae":-1},"danielle-night":{"energy":0,"sweet":0,"lead":0,"relax":0,"emo":0,"style":0,"maknae":0},"haerin-practice":{"energy":6,"sweet":4,"lead":0,"relax":3,"emo":0,"style":0,"maknae":0},"haerin-stage":{"energy":0,"sweet":0,"lead":0,"relax":0,"emo":0,"style":0,"maknae":0},"haerin-variety":{"energy":-1,"sweet":-5,"lead":-5,"relax":7,"emo":-4,"style":9,"maknae":0},"haerin-daily":{"energy":-8,"sweet":-1,"lead":-4,"relax":4,"emo":-1,"style":0,"maknae":0},"haerin-night":{"energy":7,"sweet":2,"lead":1,"relax":0,"emo":0,"style":0,"maknae":0},"hyein-practice":{"energy":0,"sweet":0,"lead":0,"relax":0,"emo":0,"style":0,"maknae":3},"hyein-stage":{"energy":0,"sweet":0,"lead":0,"relax":0,"emo":0,"style":0,"maknae":-3},"hyein-variety":{"energy":-3,"sweet":0,"lead":3,"relax":-3,"emo":0,"style":-1,"maknae":-7},"hyein-daily":{"energy":0,"sweet":0,"lead":3,"relax":-3,"emo":0,"style":0,"maknae":-5},"hyein-night":{"energy":7,"sweet":0,"lead":8,"relax":0,"emo":-4,"style":0,"maknae":-8},"hanni-daily":{"energy":0,"sweet":0,"lead":0,"relax":0,"emo":0,"style":0,"maknae":0},"hanni-night":{"energy":0,"sweet":0,"lead":0,"relax":0,"emo":2,"style":0,"maknae":0}};
+ 
+/* 由成员底色 × 情境偏移生成 25 个结果 */
+const clamp = function(x){ return Math.max(0, Math.min(100, Math.round(x))); };
+const CITIES = [];
+Object.keys(MEMBERS).forEach(function(mk){
+  const m = MEMBERS[mk];
+  SITS.forEach(function(s){
+    const v = {};
+    const tw = TWEAK[mk + '-' + s.key] || {};
+    DIMS.forEach(function(d){
+      v[d.key] = clamp(m.v[d.key] + s.d[d.key] + (tw[d.key] || 0));
+    });
+    const cp = COPY[mk + '-' + s.key];
+    CITIES.push({
+      zone: mk, member: m.n, memberCn: m.cn, sit: s.label, sitEn: s.en, sitKey: s.key,
+      name: m.n + '·' + s.label, loc: s.label + '里的 ' + m.n,
+      v: v, tags: cp[0], hl: cp[1], fit: cp[2], bad: cp[3]
+    });
+  });
+});
+ 
+/* ==================================================================
+   4. 通用计算引擎（换主题不用改）
+   ================================================================== */
+let answers = new Array(QUESTIONS.length).fill(-1);
+let cur = 0;
+ 
+const $ = function(id){return document.getElementById(id);};
+const toastEl = $('toast');
+let toastTimer = null;
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){toastEl.classList.remove('show');}, 2000);
+}
+ 
+/* 4.0 分布校准表（由校准脚本自动生成，勿手改）
+   UQ = 用户原始得分的分位点；CQ = 结果池坐标的分位点
+   为什么需要：用户得分是多题平均值，天然向中间收敛；直接与铺满 0-100 的结果池比距离，
+   会导致边缘人格永远匹配不上。分位数映射把用户分布对齐到结果池分布，解决退化问题。 */
+const UQ = {"energy":[27.3,43.5,46,47.7,49,50.2,51.2,52.2,53.1,54.1,55,55.8,56.8,57.7,58.7,59.7,60.9,62.3,64.1,66.8,84.9],"sweet":[32,59.1,61.2,62.6,63.6,64.4,65.2,65.9,66.4,67,67.5,68.1,68.6,69.1,69.7,70.3,70.9,71.7,72.7,74.1,90],"lead":[46,62.1,64.4,66,67.1,68.1,69,69.9,70.6,71.3,72,72.8,73.5,74.3,75,76,76.9,78,79.5,81.5,90],"relax":[29.4,50.1,52.9,54.9,56.5,57.7,58.9,60,60.9,61.9,62.8,63.7,64.6,65.6,66.7,67.7,68.9,70.3,72,74.5,89.5],"emo":[38,56.4,58.7,60.3,61.4,62.5,63.4,64.2,65,65.7,66.4,67.2,67.9,68.7,69.5,70.3,71.3,72.4,73.8,76,92],"style":[16,42.1,46.5,49.2,51.4,53.2,54.8,56.3,57.7,59,60.3,61.6,62.9,64.2,65.5,67,68.7,70.6,72.8,76.5,90],"maknae":[46,52,53.2,54,54.6,55,55.3,55.9,56,56.4,56.7,57,57.4,58,58.3,58.8,59.3,60,60.7,62,66]};
+const CQ = {"energy":[13,18,26,32.6,38.6,44,46.8,50.8,52.6,57,62,65.4,69.4,75.4,77.8,80,82.4,86,92.6,99,100],"sweet":[42,48.4,51.2,53,53.8,54,56.8,60.8,62,65.2,66,70,71.6,76.4,81.2,86,88.2,89.4,90,90.8,94],"lead":[33,36,37.2,39,39.8,41,45.6,48.8,50.6,51.8,56,57.2,63.6,67.2,70.4,74,76,76,79.6,87.6,90],"relax":[38,40.2,45.4,46.6,47.8,48,53.2,58.4,60.8,65.2,68,71.2,77.6,83.6,86.8,89,89.4,91.8,93.6,96.4,100],"emo":[46,47.2,48,50.4,53.6,55,56.4,58.8,60,60,62,62.4,64.8,66,67.6,68,68.8,72,74.4,80.8,90],"style":[38,46.4,48.8,50.6,53.4,55,56.8,60.8,62,65.2,68,68.8,72,72,73.6,78,78.6,81,88.8,96.4,100],"maknae":[28,28.4,31.6,35.2,36,42,42.4,44.8,47.2,48,50,52.4,54.8,57.2,61.2,63,66.8,81.6,87,87,89]};
+const PSEG = UQ.energy.length - 1;
+ 
+function calibrate(key, raw){
+  const U = UQ[key], C = CQ[key];
+  if(raw <= U[0]) return C[0];
+  if(raw >= U[PSEG]) return C[PSEG];
+  let i = 0;
+  while(i < PSEG && U[i+1] < raw) i++;
+  const span = U[i+1] - U[i];
+  const pos = i + (span > 0.0001 ? (raw - U[i]) / span : 1);
+  const j = Math.min(PSEG - 1, Math.floor(pos));
+  return C[j] + (C[j+1] - C[j]) * (pos - j);
+}
+ 
+/* 4.1 用户偏好向量 */
+function buildUserVector(){
+  const acc = {}, sum = {};
+  DIMS.forEach(function(d){acc[d.key]=0; sum[d.key]=0;});
+  answers.forEach(function(ai, qi){
+    if(ai < 0) return;
+    const v = QUESTIONS[qi].o[ai].v || {};
+    const weight = 1 + (qi >= QUESTIONS.length - 3 ? 0.15 : 0);
+    DIMS.forEach(function(d){
+      if(typeof v[d.key] === 'number'){
+        acc[d.key] += v[d.key] * weight;
+        sum[d.key] += weight;
+      }
+    });
+  });
+  const out = {};
+  DIMS.forEach(function(d){
+    const raw = sum[d.key] ? acc[d.key]/sum[d.key] : 50;
+    out[d.key] = calibrate(d.key, raw);
+  });
+  return out;
+}
+ 
+/* 4.2 距离 → 契合度百分制 */
+function scoreCity(uv, city){
+  let sum = 0, wsum = 0;
+  DIMS.forEach(function(d){
+    const diff = uv[d.key] - city.v[d.key];
+    sum += d.w * diff * diff;
+    wsum += d.w;
+  });
+  const rms = Math.sqrt(sum / wsum);
+  return Math.max(52, Math.min(99, Math.round(100 - rms * 1.25)));
+}
+ 
+/* 4.3 画像标签：取偏离中间值最大的 4 个维度 */
+function profileTags(uv){
+  return DIMS.map(function(d){
+    return {dev:Math.abs(uv[d.key]-50), name:labelOf(d.dict, uv[d.key])};
+  }).sort(function(a,b){return b.dev-a.dev;}).slice(0,4).map(function(x){return x.name;});
+}
+function labelOf(dict, val){
+  for(let i=0;i<dict.length;i++){ if(val < dict[i][0]) return dict[i][1]; }
+  return dict[dict.length-1][1];
+}
+ 
+/* 4.4 成员底色分布：取前 6 个结果按名次加权，归到所属成员 */
+const MIX_W = [10, 7, 5, 3, 2, 1];
+function memberMix(ranked){
+  const acc = {};
+  Object.keys(MEMBERS).forEach(function(k){ acc[MEMBERS[k].n] = 0; });
+  let total = 0;
+  ranked.slice(0, MIX_W.length).forEach(function(r, i){
+    acc[r.c.member] += MIX_W[i];
+    total += MIX_W[i];
+  });
+  return Object.keys(acc).map(function(k){
+    return {name:k, pct: Math.round(acc[k] / total * 100)};
+  }).sort(function(a,b){return b.pct - a.pct;});
+}
+ 
+/* ================= 像素艺术 / Y2K 视觉辅助 ================= */
+const PX = {
+  heart :['.##.##.','#######','#######','.#####.','..###..','...#...'],
+  star  :['...#...','...#...','..###..','#######','..###..','...#...','...#...'],
+  flower:['.#.#.','#####','#####','.###.','..#.'],
+  cloud :['..###....','.#####...','#########','.#######.','..#####..'],
+  note  :['..##.','.####','.####','.#..#','.#..#','##..#','##...']
+};
+function pxArt(rows, color, unit){
+  let rects = '', w = 0;
+  rows.forEach(function(line, y){
+    if(line.length > w) w = line.length;
+    for(let x = 0; x < line.length; x++){
+      const ch = line[x];
+      if(ch !== '.' && ch !== ' ') rects += '<rect x="' + (x*unit) + '" y="' + (y*unit) + '" width="' + unit + '" height="' + unit + '"/>';
+    }
+  });
+  return '<svg viewBox="0 0 ' + (w*unit) + ' ' + (rows.length*unit) + '" width="' + (w*unit) +
+         '" height="' + (rows.length*unit) + '" shape-rendering="crispEdges" fill="' + color + '">' + rects + '</svg>';
+}
+/* 把拉丁文成员名画成真正的像素字：小画布绘制 → 最近邻放大 */
+function pixelName(text){
+  try{
+    const S = 3, FS = 16, FONT = '800 ' + FS + 'px "Courier New",monospace';
+    const c = document.createElement('canvas');
+    let g = c.getContext('2d');
+    g.font = FONT;
+    const w = Math.ceil(g.measureText(text).width) + 4, h = FS + 8;
+    c.width = w; c.height = h;
+    g = c.getContext('2d');
+    g.font = FONT; g.textBaseline = 'top'; g.fillStyle = '#FF4FA0';
+    g.fillText(text, 2, 3);
+    const o = document.createElement('canvas');
+    o.width = w * S; o.height = h * S;
+    const og = o.getContext('2d');
+    og.imageSmoothingEnabled = false;
+    og.drawImage(c, 0, 0, w, h, 0, 0, w*S, h*S);
+    return o.toDataURL('image/png');
+  }catch(e){ return null; }
+}
+/* 结果页飘心 */
+function burst(host){
+  try{
+    for(let i = 0; i < 7; i++){
+      const s = document.createElement('span');
+      s.className = 'fly';
+      s.innerHTML = pxArt(PX.heart, i % 2 ? '#FF8FC0' : '#C1A3FF', 3);
+      s.style.left = (10 + Math.random() * 78) + '%';
+      s.style.animationDelay = (i * 0.1) + 's';
+      host.appendChild(s);
+      setTimeout(function(){ if(s.parentNode) s.parentNode.removeChild(s); }, 2700 + i * 100);
+    }
+  }catch(e){}
+}
+/* 匹配度数字滚动 */
+function countUp(el, to){
+  try{
+    let n = 0; const step = Math.max(1, Math.round(to / 26));
+    el.innerHTML = '0<i>%</i>';
+    const t = setInterval(function(){
+      n += step;
+      if(n >= to){ n = to; clearInterval(t); }
+      el.innerHTML = n + '<i>%</i>';
+    }, 26);
+  }catch(e){ try{ el.innerHTML = to + '<i>%</i>'; }catch(e2){} }
+}
+/* 重放结果页进场动画（重新测试后再出结果时生效） */
+function replayReveal(){
+  try{
+    const els = document.querySelectorAll('#pg-result .reveal');
+    for(let i = 0; i < els.length; i++){
+      els[i].classList.remove('reveal');
+      void els[i].offsetWidth;
+      els[i].classList.add('reveal');
+    }
+  }catch(e){}
+}
+ 
+/* 封面像素装饰 + 扫描页心跳 */
+try{
+  const pr = $('pxrow');
+  if(pr) pr.innerHTML = pxArt(PX.heart,'#FF8FC0',3) + pxArt(PX.star,'#C1A3FF',3) + pxArt(PX.heart,'#78EFD2',3);
+  const sh = $('scan-heart');
+  if(sh) sh.innerHTML = pxArt(PX.heart,'#FF4FA0',5);
+}catch(e){}
+ 
+/* ---------- 页面渲染 ---------- */
+function renderQuestion(){
+  const q = QUESTIONS[cur];
+  $('q-idx').textContent = String(cur+1).padStart(2,'0');
+  $('q-topic').textContent = q.topic ? '# ' + q.topic : '';
+  $('q-title').textContent = q.q;
+  $('q-bar').style.width = Math.round((cur+1)/QUESTIONS.length*100) + '%';
+  $('btn-prev').classList.toggle('hidden', cur === 0);
+  $('btn-next').textContent = (cur === QUESTIONS.length-1) ? '看看我是谁' : '下一题';
+  const box = $('q-opts');
+  box.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  q.o.forEach(function(opt, i){
+    const b = document.createElement('button');
+    b.className = 'opt' + (answers[cur] === i ? ' on' : '');
+    b.type = 'button';
+    b.innerHTML = '<span class="k">' + letters[i] + '</span><span>' + opt.t + '</span>';
+    b.style.animationDelay = (i * 0.06) + 's';
+    b.onclick = function(){
+      answers[cur] = i;
+      Array.prototype.forEach.call(box.children, function(c, j){ c.classList.toggle('on', j === i); });
+      $('btn-next').disabled = false;
+    };
+    box.appendChild(b);
+  });
+  $('btn-next').disabled = answers[cur] < 0;
+}
+ 
+function showResult(){
+  const uv = buildUserVector();
+  const ranked = CITIES.map(function(c){ return {c:c, s:scoreCity(uv, c)}; })
+                       .sort(function(a,b){return b.s - a.s;});
+  const top = ranked[0], second = ranked[1], third = ranked[2];
+ 
+  $('r-region').textContent = 'YOUR NEWJEANS PERSONA';
+  $('r-city').textContent = top.c.member;
+  const png = pixelName(top.c.member);
+  $('r-name').innerHTML = png
+    ? '<img src="' + png + '" alt="' + top.c.member + '">'
+    : '<span class="r-name-fb">' + top.c.member + '</span>';
+  $('r-en').textContent = top.c.memberCn + ' · ' + top.c.loc;
+  $('r-sit').textContent = top.c.sit + ' · ' + top.c.sitEn;
+  $('r-tags').innerHTML = top.c.tags.map(function(t){return '<span>' + t + '</span>';}).join('');
+  $('r-ring').style.setProperty('--p', top.s);
+  countUp($('r-score'), top.s);
+  $('r-hl').textContent = top.c.hl;
+  $('r-fit').textContent = top.c.fit;
+  $('r-bad').textContent = top.c.bad;
+  $('r-profile').innerHTML = profileTags(uv).map(function(t){return '<span>' + t + '</span>';}).join('');
+ 
+  $('r-mix').innerHTML = memberMix(ranked).map(function(x){
+    return '<div class="mix-row"><div class="mix-n">' + x.name + '</div>' +
+           '<div class="mix-bar"><i data-w="' + x.pct + '"></i></div>' +
+           '<div class="mix-p">' + x.pct + '%</div></div>';
+  }).join('');
+  /* 条形图延后一帧再赋宽，让过渡动画跑起来 */
+  setTimeout(function(){
+    try{
+      const bars = document.querySelectorAll('#r-mix .mix-bar > i');
+      for(let i = 0; i < bars.length; i++){ bars[i].style.width = bars[i].getAttribute('data-w') + '%'; }
+    }catch(e){}
+  }, 90);
+ 
+  $('r-alt').innerHTML = [second, third].map(function(x){
+    return '<div class="alt-c"><div class="an">' + x.c.member + '</div>' +
+           '<div class="ar">' + x.c.sit + ' · ' + x.c.sitEn + '</div>' +
+           '<div class="as">契合 ' + x.s + '%</div>' +
+           '<div class="ad">' + x.c.tags.slice(0,2).join(' · ') + '</div></div>';
+  }).join('');
+ 
+  window.__resultText = '【我是 NewJeans 里的谁】' + top.c.member + '　契合度 ' + top.s + '%\n' +
+    '💗 ' + top.c.loc + '　#' + top.c.tags.join(' #') + '\n\n' +
+    '✨ 你给人的感觉：' + top.c.hl + '\n\n' +
+    '🌿 你是这样的人：' + top.c.fit + '\n\n' +
+    '💌 温柔提醒：' + top.c.bad + '\n\n' +
+    '也很像我：' + second.c.sit + '里的' + second.c.member + ' / ' + third.c.sit + '里的' + third.c.member + '\n' +
+    '#NewJeans #NJZ #人格测试 #五人五色';
+ 
+  $('pg-quiz').classList.add('hidden');
+  $('pg-scan').classList.add('hidden');
+  $('pg-result').classList.remove('hidden');
+  replayReveal();
+  burst($('r-hero'));
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+ 
+/* 最后一题交卷 → 先放一段录像带感过场，再出结果 */
+function runScan(){
+  $('pg-quiz').classList.add('hidden');
+  $('pg-scan').classList.remove('hidden');
+  window.scrollTo({top:0});
+  setTimeout(showResult, 1500);
+}
+ 
+function backToCover(){
+  answers = new Array(QUESTIONS.length).fill(-1);
+  cur = 0;
+  $('pg-result').classList.add('hidden');
+  $('pg-quiz').classList.add('hidden');
+  $('pg-cover').classList.remove('hidden');
+  window.scrollTo({top:0});
+}
+ 
+/* ---------- 事件绑定 ---------- */
+$('btn-start').onclick = function(){
+  $('pg-cover').classList.add('hidden');
+  $('pg-quiz').classList.remove('hidden');
+  renderQuestion();
+  window.scrollTo({top:0});
+};
+$('btn-next').onclick = function(){
+  if(answers[cur] < 0) return;
+  if(cur < QUESTIONS.length - 1){ cur++; renderQuestion(); window.scrollTo({top:0, behavior:'smooth'}); }
+  else runScan();
+};
+$('btn-prev').onclick = function(){
+  if(cur > 0){ cur--; renderQuestion(); }
+};
+$('btn-restart').onclick = backToCover;
+$('btn-copy').onclick = function(){
+  const text = window.__resultText || '';
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){toast('文案已复制，去小红书粘贴吧 💗');},
+      function(){fallbackCopy(text);});
+  } else fallbackCopy(text);
+};
+function fallbackCopy(text){
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); toast('文案已复制，去小红书粘贴吧 💗'); }
+  catch(e){ toast('复制失败，请长按页面截图分享'); }
+  document.body.removeChild(ta);
+}
+</script>
+</body>
+</html>
